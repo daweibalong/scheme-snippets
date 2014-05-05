@@ -261,8 +261,8 @@
 				   (car right)
 				   (cadr right))))))))
 (define number-leaves
-    (lambda (node)
-      (cadr (number-leaves-aux node 0))))
+  (lambda (node)
+    (cadr (number-leaves-aux node 0))))
 
 ; method2
 (define (counter start)
@@ -275,8 +275,8 @@
     (if (leaf? node)
 	(counter)
 	(interior-node (contents-of node)
-		              (number-leaves-aux (lnode node) counter)
-			             (number-leaves-aux (rnode node) counter)))))
+		       (number-leaves-aux (lnode node) counter)
+		       (number-leaves-aux (rnode node) counter)))))
 (define number-leaves
   (lambda (node)
     (number-leaves-aux node (counter -1))))

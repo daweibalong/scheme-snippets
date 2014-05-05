@@ -264,6 +264,22 @@
     (lambda (node)
       (cadr (number-leaves-aux node 0))))
 
+; method2
+(define (counter start)
+  (lambda ()
+    (set! start (+ 1 start))
+    start))
+
+(define number-leaves-aux
+  (lambda (node counter)
+    (if (leaf? node)
+	(counter)
+	(interior-node (contents-of node)
+		              (number-leaves-aux (lnode node) counter)
+			             (number-leaves-aux (rnode node) counter)))))
+(define number-leaves
+  (lambda (node)
+    (number-leaves-aux node (counter -1))))
 ;; 1.36
 (define g
   (lambda (l2 lst)
