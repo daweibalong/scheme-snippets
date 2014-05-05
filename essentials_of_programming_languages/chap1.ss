@@ -102,8 +102,8 @@
 	    (list-index-aux pred (cdr lst) (+ index 1))))))
 
 (define list-index
-    (lambda (pred lst)
-      (list-index-aux pred lst 0)))
+  (lambda (pred lst)
+    (list-index-aux pred lst 0)))
 
 ;; 1.24
 (define every?
@@ -183,67 +183,67 @@
 
 ;; 1.31
 (define leaf
-    (lambda (x)
-      (list 'leaf x)))
+  (lambda (x)
+    (list 'leaf x)))
 
 (define interior-node
   (lambda (symbol lnode rnode)
     (list 'node symbol lnode rnode)))
 
 (define leaf?
-    (lambda (node)
-      (eq? (car node) 'leaf)))
+  (lambda (node)
+    (eq? (car node) 'leaf)))
 
 (define lnode
-    (lambda (node)
-      (if (eq? 'node (car node))
-          (caddr node))))
+  (lambda (node)
+    (if (eq? 'node (car node))
+	(caddr node))))
 
 (define rnode
-    (lambda (node)
-      (if (eq? 'node (car node))
-          (cadddr node))))
+  (lambda (node)
+    (if (eq? 'node (car node))
+	(cadddr node))))
 
 (define contents-of
-    (lambda (node)
-      (if (or (eq? 'node (car node))
-              (eq? 'leaf (car node)))
-          (cadr node))))
+  (lambda (node)
+    (if (or (eq? 'node (car node))
+	    (eq? 'leaf (car node)))
+	(cadr node))))
 
 ;; 1.32
 (define double-tree
-    (lambda (tree)
-      (if (leaf? tree)
-          (leaf (* 2 (contents-of tree)))
-          (interior-node (contents-of tree)
-            (double-tree (lnode tree))
-            (double-tree (rnode tree))))))
+  (lambda (tree)
+    (if (leaf? tree)
+	(leaf (* 2 (contents-of tree)))
+	(interior-node (contents-of tree)
+		       (double-tree (lnode tree))
+		       (double-tree (rnode tree))))))
 
 ;; 1.33
 (define mark-leaves-with-red-depth-aux
-    (lambda (n tree)
-      (if (leaf? tree)
-          n
-          (let ([n-t (if (eq? (contents-of tree) 'red)
-                         (+ n 1)
-                         n)])
-            (interior-node (contents-of tree)
-              (mark-leaves-with-red-depth-aux n-t (lnode tree))
-              (mark-leaves-with-red-depth-aux n-t (rnode tree)))))))
+  (lambda (n tree)
+    (if (leaf? tree)
+	n
+	(let ([n-t (if (eq? (contents-of tree) 'red)
+		       (+ n 1)
+		       n)])
+	  (interior-node (contents-of tree)
+			 (mark-leaves-with-red-depth-aux n-t (lnode tree))
+			 (mark-leaves-with-red-depth-aux n-t (rnode tree)))))))
 (define mark-leaves-with-red-depth
   (lambda (tree)
     (mark-leaves-with-red-depth-aux 0 tree)))
 
 ;; 1.34
 (define path
-    (lambda (n tree)
-      (if (null? tree)
-         '()
+  (lambda (n tree)
+    (if (null? tree)
+	'()
         (let ([content (car tree)])
-         (cond
-          [(< n content) (cons 'left (path n (cadr tree)))]
-          [(> n content) (cons 'right (path n (caddr tree)))]
-          [else '()])))))
+	  (cond
+	   [(< n content) (cons 'left (path n (cadr tree)))]
+	   [(> n content) (cons 'right (path n (caddr tree)))]
+	   [else '()])))))
 
 ;; 1.35
 (define number-leaves-aux
